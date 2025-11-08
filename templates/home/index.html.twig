@@ -1,35 +1,53 @@
 {# templates/home/index.html.twig #}
 {% extends 'base.html.twig' %}
 
-{% block title %}Accueil - Actualités Locales{% endblock %}
+{% block title %}Actualités du Moment (GNews){% endblock %}
 
 {% block body %}
-    <h1>Vos Actualités Locales</h1>
+    <h1 style="margin-bottom: 25px;">Actualités du Moment</h1>
 
     {% if articles is empty %}
-        <p>Aucun article n'a été publié pour le moment.
-            {# Affiche un lien différent selon que l'utilisateur est connecté ou non #}
-            {% if is_granted('ROLE_USER') %}
-                <a href="{{ path('app_article_new') }}">Ajoutez-en un !</a>
-            {% else %}
-                <a href="{{ path('app_login') }}">Connectez-vous</a> pour ajouter des articles.
-            {% endif %}
+        <p style="padding: 20px; border: 1px dashed red; color: red;">
+            Aucun article trouvé. Veuillez vérifier votre clé API GNEWS_API_KEY et sa configuration.
         </p>
     {% else %}
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+        {# Grille de cartes pour les articles #}
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px;">
             {% for article in articles %}
-                <article style="border: 1px solid #ddd; padding: 15px; border-radius: 5px;">
-                    <h2>{{ article.title }}</h2>
+                {# Style général de la carte #}
+                <div style="border: 1px solid #e0e0e0; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.1); background: white;">
 
-                    <p>{{ article.content|slice(0, 150) ~ '...' }}</p>
+                    {# Zone Image Cliquable #}
+                    <a href="{{ article.url }}" target="_blank" title="{{ article.title }}" style="display: block; text-decoration: none;">
+                        {% if article.image %}
+                            {# GNews utilise 'image' pour l'URL de l'image #}
+                            <img src="{{ article.image }}" alt="{{ article.title }}" style="width: 100%; height: 200px; object-fit: cover;">
+                        {% else %}
+                            {# Image de secours si l'image est manquante #}
+                            <div style="width: 100%; height: 200px; background-color: #f0f0f0; display: flex; align-items: center; justify-content: center; color: #666;">
+                                <span>Image non disponible</span>
+                            </div>
+                        {% endif %}
+                    </a>
 
-                    {# Accès à l'email de l'auteur via la relation Article->User #}
-                    <small>Auteur: **{{ article.user.email }}**</small><br>
-                    <small>Publié le: {{ article.createdAt|date('d/m/Y H:i') }}</small>
+                    <div style="padding: 15px;">
+                        {# Titre Cliquable #}
+                        <h2 style="font-size: 1.2em; margin-top: 0; margin-bottom: 10px;">
+                            <a href="{{ article.url }}" target="_blank" style="text-decoration: none; color: #007bff;">
+                                {{ article.title }}
+                            </a>
+                        </h2>
 
-                    {# Lien vers la page de détails de l'article #}
-                    <p><a href="{{ path('app_article_show', {'id': article.id}) }}">Lire la suite →</a></p>
-                </article>
+                        {# Description (truncation pour la carte) #}
+                        <p style="font-size: 0.9em; color: #555; margin-bottom: 15px;">
+                            {{ article.description|slice(0, 100) ~ '...' }}
+                        </p>
+
+                        <small style="display: block; color: #888;">
+                            Source: {{ article.source.name }}
+                        </small>
+                    </div>
+                </div>
             {% endfor %}
         </div>
     {% endif %}

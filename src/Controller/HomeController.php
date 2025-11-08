@@ -1,8 +1,8 @@
 <?php
-// src/Controller/HomeController.php
+
 namespace App\Controller;
 
-use App\Repository\ArticleRepository; // 👈 LIGNE À AJOUTER/VÉRIFIER
+use App\Service\NewsApiService; // 👈 Importez le Service API
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -10,15 +10,14 @@ use Symfony\Component\Routing\Attribute\Route;
 final class HomeController extends AbstractController
 {
     #[Route('/', name: 'app_home')]
-    public function index(ArticleRepository $articleRepository): Response // L'injection est maintenant résolue
+    // 🚨 Injection du service API
+    public function index(NewsApiService $newsApiService): Response
     {
-        $articles = $articleRepository->findBy(
-            [], // Pas de critères de recherche
-            ['createdAt' => 'DESC'], // Triés par date de création décroissante
-            10 // Limite de 10 articles (optionnel)
-        );
+        // Récupère les top-headlines GNews
+        $articles = $newsApiService->fetchTopHeadlines('fr');
 
         return $this->render('home/index.html.twig', [
+            // Passe les articles API pour l'affichage en cartes
             'articles' => $articles,
         ]);
     }
