@@ -15,7 +15,7 @@
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px;">
             {% for article in articles %}
                 {# Style général de la carte #}
-                <div style="border: 1px solid #e0e0e0; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.1); background: white;">
+                <div class="article-card">
 
                     {# Zone Image Cliquable #}
                     <a href="{{ article.url }}" target="_blank" title="{{ article.title }}" style="display: block; text-decoration: none;">

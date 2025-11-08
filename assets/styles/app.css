@@ -1,3 +1,74 @@
 body {
-    background-color: skyblue;
+    /* Je définis une couleur de fond pour le corps pour mieux voir l'effet flottant */
+    background-color: #f8f9fa; /* Gris très clair, pour le contraste */
+}
+
+/* Styles pour les cartes d'article et l'effet de survol (hover effect) */
+.article-card {
+    /* Styles de base pour simuler l'original et ajouter les transitions */
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    overflow: hidden;
+    background: white;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+
+    /* Ajout de la transition pour une animation douce */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.article-card:hover {
+    /* Léger mouvement vers le haut */
+    transform: translateY(-5px);
+    /* Ombre plus prononcée pour l'effet de "pop" */
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+}
+
+/* ---------------------------------------------------- */
+/* NAVBAR FLOTTANTE STYLISÉE ET DYNAMIQUE (Floating) */
+/* ---------------------------------------------------- */
+
+.floating-header-wrapper {
+    /* Conserve la marge supérieure pour le décalage initial, mais la navbar sera "fixed" */
+    padding-top: 30px;
+    /* Nous allons ajouter une marge au body pour compenser la navbar fixe */
+}
+
+.floating-navbar {
+    /* REND LA NAVBAR FIXE PENDANT LE DÉFILEMENT */
+    position: fixed;
+    top: 30px; /* Conserve le décalage initial de 30px du haut */
+    left: 50%; /* Commence le centrage horizontal */
+    transform: translateX(-50%); /* Termine le centrage horizontal */
+    width: 90%; /* Définit la largeur explicite nécessaire pour position: fixed/absolute */
+
+    /* Styles d'encadrement */
+    margin: 0; /* Annule la marge auto maintenant inutile/dangereuse avec fixed */
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    z-index: 1030; /* Assure que la navbar est au-dessus du contenu */
+}
+
+.dynamic-navbar {
+    /* Utiliser rgba pour la transparence */
+    background-color: rgba(33, 37, 41, 0.95) !important;
+    backdrop-filter: blur(5px);
+    transition: background-color 0.4s ease-in-out, transform 0.2s ease;
+}
+
+.dynamic-navbar:hover {
+    /* Devient légèrement plus levée et opaque au survol */
+    background-color: rgba(33, 37, 41, 1) !important;
+    transform: translateX(-50%) scale(1.005); /* Applique la transformation de centrage et le zoom */
+}
+
+/* Améliorer les champs de recherche sur fond noir */
+.dynamic-navbar .form-control {
+    background-color: #343a40;
+    border-color: #495057;
+    color: white;
+}
+
+.dynamic-navbar .form-control::placeholder {
+    color: #ced4da;
+    opacity: 0.6;
 }

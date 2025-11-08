@@ -17,9 +17,12 @@
         <style>
             body {
                 padding-bottom: 70px; /* Espace pour le footer fixe */
+                /* AJOUT DE PADDING POUR COMPENSER LA NAV BAR FIXE (Hauteur 66px + Marge 30px + petit dégagement) */
+                padding-top: 100px;
             }
             .min-vh-main {
-                min-height: calc(100vh - 70px - 66px); /* 100vh - footer - header_height (approx) */
+                /* Ce calcul n'est plus critique car le padding-top du body gère l'espace, mais le main prend le reste */
+                min-height: calc(100vh - 70px - 100px);
             }
         </style>
         {# Assurez-vous que les icônes (si utilisées, comme fas fa-tools) fonctionnent, sinon retirez la balise <i> #}
@@ -35,12 +38,12 @@
 
 <body class="bg-light">
 
-{# ----------------- HEADER / NAVIGATION (Dark Mode ÉLÉGANT) ----------------- #}
+{# ----------------- HEADER / NAVIGATION (Flottante Stylisée) ----------------- #}
 <header>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark py-2 dynamic-navbar floating-navbar">
         <div class="container-fluid">
 
-            {# Nom du site stylisé #}
+            {# Nom du site stylisé (Couleur accentuée) #}
             <a class="navbar-brand fw-bolder fs-4 text-warning" href="{{ path('app_home') }}">
                 📰 Actualités App
             </a>
@@ -49,14 +52,18 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
 
-
-            <div class="d-flex align-items-center">
-
-                {# Formulaire de Recherche (plus compact) #}
-                <form action="{{ path('app_search') }}" method="GET" class="d-flex me-3">
-                    <input class="form-control form-control-sm me-2" type="search" name="q" placeholder="Rechercher..." required aria-label="Search">
-                    <button class="btn btn-sm btn-outline-warning" type="submit">🔍</button>
+            {# Conteneur pour le centrage de la recherche #}
+            <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+                {# Formulaire de Recherche (maintenant au milieu) #}
+                <form action="{{ path('app_search') }}" method="GET" class="d-flex w-50">
+                    <input class="form-control me-3" type="search" name="q" placeholder="Rechercher..." required aria-label="Search">
+                    <button class="btn btn-sm btn-outline-light" type="submit">🔍</button>
                 </form>
+            </div>
+
+
+            {# Le conteneur d-flex de droite conserve les liens d'auth #}
+            <div class="d-flex align-items-center">
 
                 {# Liens d'Authentification et Administration #}
                 {% if is_granted('ROLE_USER') %}
@@ -66,15 +73,15 @@
                     </a>
 
                     {# Email de l'utilisateur #}
-                    <span class="navbar-text me-3 text-secondary" style="font-size: 0.9rem;">
+                    <span class="navbar-text me-3 text-white-50" style="font-size: 0.9rem;">
                         Bonjour, <strong class="text-white">{{ app.user.email }}</strong>
                     </span>
 
                     {# Bouton de Déconnexion #}
                     <a href="{{ path('app_logout') }}" class="btn btn-sm btn-danger">Déconnexion</a>
                 {% else %}
-                    {# 🚨 CORRECTION POUR LA COULEUR UNIFORME : Les deux sont btn-warning (jaune/orange) #}
-                    <a href="{{ path('app_register') }}" class="btn btn-sm btn-warning me-2">S'inscrire</a>
+                    {# Boutons Se connecter / S'inscrire #}
+                    <a href="{{ path('app_register') }}" class="btn btn-sm btn-outline-warning me-2">S'inscrire</a>
                     <a href="{{ path('app_login') }}" class="btn btn-sm btn-warning">Se connecter</a>
                 {% endif %}
             </div>
@@ -87,10 +94,10 @@
     {% block body %}{% endblock %}
 </main>
 
-{# ----------------- FOOTER FIXE ----------------- #}
+{# ----------------- FOOTER FIXE (Noir pour correspondre à la nav) ----------------- #}
 <footer class="footer py-2 bg-dark border-top border-warning fixed-bottom">
     <div class="container text-center">
-        <small class="text-muted text-warning">&copy; {{ 'now'|date('Y') }} Actualités App - Propulsé par Symfony & Bootstrap</small>
+        <small class="text-muted text-white-50">&copy; {{ 'now'|date('Y') }} Actualités App - Propulsé par Symfony & Bootstrap</small>
     </div>
 </footer>
 
