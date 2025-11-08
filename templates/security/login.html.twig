@@ -1,34 +1,62 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Log in!{% endblock %}
+{% block title %}Se connecter{% endblock %}
 
 {% block body %}
-<form method="post">
-    {% if error %}
-        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-    {% endif %}
+    {# Utilisation des classes Bootstrap pour centrer et styliser la carte #}
+    <div class="d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+        <div class="card shadow-lg" style="width: 100%; max-width: 400px;">
+            <div class="card-body p-4">
 
-    {% if app.user %}
-        <div class="mb-3">
-            You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
+                <h1 class="card-title text-center mb-4 fw-bold">Se connecter</h1>
+
+                {# Affichage des erreurs de connexion (si présentes) #}
+                {% if error %}
+                    <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                {% endif %}
+
+                {# Message si l'utilisateur est déjà connecté #}
+                {% if app.user %}
+                    <div class="alert alert-info mb-3">
+                        Vous êtes déjà connecté(e) en tant que **{{ app.user.userIdentifier }}**.
+                        <a href="{{ path('app_logout') }}" class="text-danger fw-bold">Déconnexion</a>
+                    </div>
+                {% endif %}
+
+                <form method="post">
+                    {# Champ Email #}
+                    <div class="mb-3">
+                        <label for="inputEmail" class="form-label">Email</label>
+                        <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus placeholder="votre.email@exemple.com">
+                    </div>
+
+                    {# Champ Mot de Passe #}
+                    <div class="mb-3">
+                        <label for="inputPassword" class="form-label">Mot de Passe</label>
+                        <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
+                    </div>
+
+                    {# Champ CSRF (jeton de sécurité) #}
+                    <input type="hidden" name="_csrf_token" data-controller="csrf-protection" value="{{ csrf_token('authenticate') }}">
+
+                    {# Option Se Souvenir de Moi #}
+                    <div class="mb-3 form-check">
+                        <input type="checkbox" name="_remember_me" class="form-check-input" id="rememberMe">
+                        <label class="form-check-label" for="rememberMe">Se souvenir de moi</label>
+                    </div>
+
+                    {# Bouton de Connexion : Il a déjà btn-lg et btn-warning #}
+                    <button class="btn btn-lg btn-warning w-100" type="submit">
+                        Se connecter
+                    </button>
+                </form>
+
+                <p class="mt-3 text-center text-muted small">
+                    {# CORRECTION du lien 'S'inscrire ici.' #}
+                    Pas encore de compte ? <a href="{{ path('app_register') }}" class="text-warning fw-bold">S'inscrire ici.</a>
+                </p>
+
+            </div>
         </div>
-    {% endif %}
-
-    <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-    <label for="inputEmail">Email</label>
-    <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
-    <label for="inputPassword">Password</label>
-    <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
-    <input type="hidden" name="_csrf_token" data-controller="csrf-protection" value="{{ csrf_token('authenticate') }}">
-
-    <div class="checkbox mb-3">
-        <label>
-            <input type="checkbox" name="_remember_me"> Remember me
-        </label>
     </div>
-
-    <button class="btn btn-lg btn-primary" type="submit">
-        Sign in
-    </button>
-</form>
 {% endblock %}
