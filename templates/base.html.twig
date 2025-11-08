@@ -1,17 +1,64 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
-        {% block stylesheets %}
-        {% endblock %}
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Actualités App{% endblock %}</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
 
-        {% block javascripts %}
-            {% block importmap %}{{ importmap('app') }}{% endblock %}
-        {% endblock %}
-    </head>
-    <body>
-        {% block body %}{% endblock %}
-    </body>
+    {# Vous pouvez ajouter ici un lien vers un fichier CSS externe si vous en avez un #}
+    {% block stylesheets %}
+        {# Exemple: <link rel="stylesheet" href="{{ asset('styles/app.css') }}"> #}
+    {% endblock %}
+
+    {% block javascripts %}
+        {% block importmap %}{{ importmap('app') }}{% endblock %}
+    {% endblock %}
+</head>
+
+<body style="font-family: Arial, sans-serif; margin: 0; padding: 0;">
+
+{# ----------------- HEADER / NAVIGATION ----------------- #}
+<header>
+    <nav style="display: flex; justify-content: space-between; align-items: center; padding: 15px 30px; background: #f8f9fa; border-bottom: 2px solid #007bff;">
+
+        {# Nom du site et lien Accueil #}
+        <a href="{{ path('app_home') }}" style="font-weight: bold; font-size: 1.4em; text-decoration: none; color: #007bff;">
+            📰 Actualités App
+        </a>
+
+        <div style="display: flex; gap: 20px; align-items: center;">
+
+            {# Formulaire de Recherche (cible la route app_search) #}
+            <form action="{{ path('app_search') }}" method="GET" style="margin: 0;">
+                <input type="search" name="q" placeholder="Rechercher actualités externes..." required style="padding: 6px; border: 1px solid #ccc; border-radius: 4px;">
+                <button type="submit" style="padding: 6px 10px; background-color: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer;">🔍</button>
+            </form>
+
+            {# Liens d'Authentification et Administration #}
+            {% if is_granted('ROLE_USER') %}
+                {# Utilisateur connecté #}
+                <a href="{{ path('app_article_index') }}" style="text-decoration: none; color: #28a745;">Admin Articles</a>
+                <span style="color: #6c757d; font-size: 0.9em;">Bonjour, **{{ app.user.email }}**</span>
+                <a href="{{ path('app_logout') }}" style="text-decoration: none; color: #dc3545;">Déconnexion</a>
+            {% else %}
+                {# Utilisateur déconnecté #}
+                <a href="{{ path('app_register') }}" style="text-decoration: none; color: #007bff;">S'inscrire</a>
+                <a href="{{ path('app_login') }}" style="text-decoration: none; color: #007bff;">Se connecter</a>
+            {% endif %}
+        </div>
+    </nav>
+</header>
+
+{# ----------------- CONTENU PRINCIPAL ----------------- #}
+<main style="padding: 20px 30px;">
+    {# Le contenu spécifique à chaque page ira ici #}
+    {% block body %}{% endblock %}
+</main>
+
+{# ----------------- FOOTER (Optionnel) ----------------- #}
+<footer style="text-align: center; padding: 10px; background: #f8f9fa; border-top: 1px solid #ccc; position: fixed; bottom: 0; width: 100%;">
+    <small>&copy; {{ 'now'|date('Y') }} Actualités App - Propulsé par Symfony</small>
+</footer>
+
+</body>
 </html>

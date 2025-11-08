@@ -1,20 +1,30 @@
+{# templates/search/index.html.twig #}
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello SearchController!{% endblock %}
+{% block title %}Résultats de recherche pour "{{ query }}"{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+    <h1>Résultats de l'API News API pour : <em>{{ query }}</em></h1>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+    {% if articles is empty %}
+        <p>Aucun résultat trouvé ou une erreur est survenue lors de l'appel à l'API.</p>
+    {% else %}
+        <div style="display: flex; flex-direction: column; gap: 20px;">
+            {% for article in articles %}
+                <article style="border: 1px solid #ccc; padding: 15px; border-radius: 5px;">
+                    <h2>
+                        <a href="{{ article.url }}" target="_blank">{{ article.title }}</a>
+                    </h2>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>C:/Users/hybor/PhpstormProjects/actualites/src/Controller/SearchController.php</code></li>
-        <li>Your template at <code>C:/Users/hybor/PhpstormProjects/actualites/templates/search/index.html.twig</code></li>
-    </ul>
-</div>
+                    {% if article.urlToImage %}
+                        <img src="{{ article.urlToImage }}" alt="Image de l'article" style="max-width: 100%; height: auto; margin-bottom: 10px;">
+                    {% endif %}
+
+                    <p>{{ article.description }}</p>
+                    <small>Source: **{{ article.source.name }}** - Publié le: {{ article.publishedAt|date('d/m/Y H:i') }}</small>
+                    <p><a href="{{ article.url }}" target="_blank">Lire l'article complet →</a></p>
+                </article>
+            {% endfor %}
+        </div>
+    {% endif %}
 {% endblock %}
