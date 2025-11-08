@@ -14,39 +14,43 @@
         {# Grille de cartes pour les articles #}
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px;">
             {% for article in articles %}
+
                 {# Style général de la carte #}
                 <div class="article-card">
 
-                    {# Zone Image Cliquable #}
-                    <a href="{{ article.url }}" target="_blank" title="{{ article.title }}" style="display: block; text-decoration: none;">
-                        {% if article.image %}
-                            {# GNews utilise 'image' pour l'URL de l'image #}
-                            <img src="{{ article.image }}" alt="{{ article.title }}" style="width: 100%; height: 200px; object-fit: cover;">
-                        {% else %}
-                            {# Image de secours si l'image est manquante #}
-                            <div style="width: 100%; height: 200px; background-color: #f0f0f0; display: flex; align-items: center; justify-content: center; color: #666;">
-                                <span>Image non disponible</span>
-                            </div>
-                        {% endif %}
-                    </a>
+                    {# Lien englobant la carte entière #}
+                    <a href="{{ article.url }}" target="_blank" title="{{ article.title }}"
+                       style="display: block; text-decoration: none; color: inherit;">
 
-                    <div style="padding: 15px;">
-                        {# Titre Cliquable #}
-                        <h2 style="font-size: 1.2em; margin-top: 0; margin-bottom: 10px;">
-                            <a href="{{ article.url }}" target="_blank" style="text-decoration: none; color: #007bff;">
+                        {# Zone Image #}
+                        <div>
+                            {% if article.image %}
+                                {# GNews utilise 'image' pour l'URL de l'image #}
+                                <img src="{{ article.image }}" alt="{{ article.title }}" style="width: 100%; height: 200px; object-fit: cover;">
+                            {% else %}
+                                {# Image de secours si l'image est manquante #}
+                                <div style="width: 100%; height: 200px; background-color: #f0f0f0; display: flex; align-items: center; justify-content: center; color: #666;">
+                                    <span>Image non disponible</span>
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <div style="padding: 15px;">
+                            {# Titre (Maintenant en noir) #}
+                            <h2 style="font-size: 1.2em; margin-top: 0; margin-bottom: 10px; **color: #343a40;**">
                                 {{ article.title }}
-                            </a>
-                        </h2>
+                            </h2>
 
-                        {# Description (truncation pour la carte) #}
-                        <p style="font-size: 0.9em; color: #555; margin-bottom: 15px;">
-                            {{ article.description|slice(0, 100) ~ '...' }}
-                        </p>
+                            {# Description (truncation pour la carte) #}
+                            <p style="font-size: 0.9em; color: #555; margin-bottom: 15px;">
+                                {{ article.description|slice(0, 100) ~ '...' }}
+                            </p>
 
-                        <small style="display: block; color: #888;">
-                            Source: {{ article.source.name }}
-                        </small>
-                    </div>
+                            <small style="display: block; color: #888;">
+                                Source: {{ article.source.name }}
+                            </small>
+                        </div>
+                    </a>
                 </div>
             {% endfor %}
         </div>
