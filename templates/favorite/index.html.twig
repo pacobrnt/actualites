@@ -4,7 +4,7 @@
 {% block title %}Mes Articles Favoris{% endblock %}
 
 {% block body %}
-<h1 style="border-bottom: 2px solid #dc3545; padding-bottom: 10px;">❤️ Mes Articles Favoris</h1>
+<h1>❤️ Mes Articles Favoris</h1>
 
 {% if favorites is empty %}
 <p class="alert alert-info" role="alert" style="margin-top: 20px;">
@@ -59,7 +59,7 @@
         <div style="padding: 0 15px 15px 15px;">
             {% include 'favorite/_like_button.html.twig' with {
             'article': article,
-            'isLiked': true //
+            'isLiked': true
             } %}
         </div>
     </div>
