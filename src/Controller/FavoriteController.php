@@ -29,7 +29,8 @@ class FavoriteController extends AbstractController
         // Récupère tous les favoris de l'utilisateur, triés par date de like
         $favorites = $favoriteRepository->findBy(['user' => $user], ['likedAt' => 'DESC']);
 
-        return $this->render('favorite/_like_button.html.twig', [
+        // ✅ CORRECTION : Rend le template de la page d'index des favoris (favorite/index.html.twig)
+        return $this->render('favorite/index.html.twig', [
             'favorites' => $favorites,
         ]);
     }

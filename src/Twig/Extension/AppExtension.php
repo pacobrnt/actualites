@@ -1,6 +1,6 @@
 <?php
-namespace App\Twig;
-// Fichier: src/Twig/AppExtension.php
+namespace App\Twig\Extension; // CORRECTION: Le namespace doit correspondre au chemin du fichier
+
 use App\Controller\FavoriteController;
 use App\Repository\FavoriteRepository;
 use Symfony\Bundle\SecurityBundle\Security;
@@ -22,6 +22,7 @@ class AppExtension extends AbstractExtension
     public function getFunctions(): array
     {
         return [
+            // Note: La fonction est bien enregistrée ici.
             new TwigFunction('is_article_liked', [$this, 'isArticleLiked']),
         ];
     }
@@ -29,7 +30,7 @@ class AppExtension extends AbstractExtension
     public function getFilters(): array
     {
         return [
-            // Filtre utilitaire pour créer un hash court et sûr d'une URL
+            // Le filtre 'hash' qui est introuvable
             new TwigFilter('hash', [$this, 'urlHash']),
         ];
     }
