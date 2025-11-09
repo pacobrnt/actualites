@@ -16,8 +16,11 @@
 
             {% for article in articles %}
 
+                {# Calcule un hash d'URL pour un ID de carte unique (utile pour Turbo) #}
+                {% set urlHash = article.url|hash %}
+
                 {# AJOUT DE LA CLASSE article-card POUR BÉNÉFICIER DES STYLES CSS (Hover, Box-Shadow, Border) #}
-                <article class="article-card">
+                <article class="article-card" id="article_card_{{ urlHash }}">
 
                     {# Conteneur intérieur pour le padding et la structure #}
                     <div style="padding: 15px;">
@@ -51,6 +54,11 @@
                         <small style="display: block; color: #888;">
                             Source: **{{ article.source.name }}** - Publié le: {{ article.publishedAt|date('d/m/Y H:i') }}
                         </small>
+
+                        {# NOUVEAU: Inclusion du bouton J'aime - Placé avant le lien "Lire l'article complet" #}
+                        {% include 'favorite/_like_button.html.twig' with {
+                            'article': article
+                        } %}
 
                         <p style="margin-top: 10px;">
                             <a href="{{ article.url }}" target="_blank">Lire l'article complet →</a>

@@ -45,7 +45,7 @@ final class ArticleController extends AbstractController
             10
         );
 
-        return $this->render('article/index.html.twig', [
+        return $this->render('article/_like_button.html.twig', [
             // IMPORTANT : On remplace 'articles' par 'pagination'
             'pagination' => $pagination,
             'searchForm' => $searchForm->createView(), // Passage du formulaire à la vue

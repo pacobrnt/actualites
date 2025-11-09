@@ -1,0 +1,38 @@
+{# Fichier: templates/favorite/_like_button.html.twig #}
+
+{# Le bouton est affiché uniquement si un utilisateur est connecté #}
+{% if app.user %}
+    {# Calculez le statut si non fourni (pour le rendu initial de la page) #}
+    {% if isLiked is not defined %}
+        {% set isLiked = is_article_liked(article.url) %}
+    {% endif %}
+
+    {# Crée un ID de jeton CSRF unique et un nom de frame basé sur le hash de l'URL #}
+    {% set urlHash = article.url|hash %}
+    {% set token_id = 'favorite_toggle' ~ urlHash %}
+
+    {# La DIV sert de Turbo Frame. Le formulaire ci-dessous remplacera le contenu de cette DIV. #}
+    <div data-turbo-frame="like_button_frame_{{ urlHash }}">
+        <form method="POST" action="{{ path('app_favorite_toggle') }}">
+            {# Jeton CSRF pour la sécurité #}
+            <input type="hidden" name="_token" value="{{ csrf_token(token_id) }}">
+
+            {# Champs cachés pour renvoyer les données de l'article au contrôleur #}
+            <input type="hidden" name="url" value="{{ article.url }}">
+            <input type="hidden" name="title" value="{{ article.title }}">
+            <input type="hidden" name="image" value="{{ article.image }}">
+            <input type="hidden" name="sourceName" value="{{ article.source.name|default('Source Inconnue') }}">
+
+            <button type="submit"
+                    class="btn btn-sm mt-2"
+                    style="width: 100%;">
+
+                {% if isLiked %}
+                    <span style="color: red;">❤️ Favori</span>
+                {% else %}
+                    <span style="color: #6c757d;">🤍 Ajouter aux favoris</span>
+                {% endif %}
+            </button>
+        </form>
+    </div>
+{% endif %}

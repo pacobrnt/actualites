@@ -15,10 +15,13 @@
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px;">
             {% for article in articles %}
 
-                {# Style général de la carte #}
-                <div class="article-card">
+                {# Le hash est utilisé pour créer des IDs uniques pour le Turbo Frame et le CSRF #}
+                {% set urlHash = article.url|hash %}
 
-                    {# Lien englobant la carte entière #}
+                {# Style général de la carte #}
+                <div class="article-card" id="article_card_{{ urlHash }}">
+
+                    {# Lien englobant la carte entière (sauf l'espace du bouton) #}
                     <a href="{{ article.url }}" target="_blank" title="{{ article.title }}"
                        style="display: block; text-decoration: none; color: inherit;">
 
@@ -37,7 +40,7 @@
 
                         <div style="padding: 15px;">
                             {# Titre (Maintenant en noir) #}
-                            <h2 style="font-size: 1.2em; margin-top: 0; margin-bottom: 10px; **color: #343a40;**">
+                            <h2 style="font-size: 1.2em; margin-top: 0; margin-bottom: 10px; color: #343a40;">
                                 {{ article.title }}
                             </h2>
 
@@ -51,6 +54,13 @@
                             </small>
                         </div>
                     </a>
+
+                    {# NOUVEAU: Inclusion du bouton J'aime - EN DEHORS de la balise <a> #}
+                    <div style="padding: 0 15px 15px 15px;">
+                        {% include 'favorite/_like_button.html.twig' with {
+                            'article': article
+                        } %}
+                    </div>
                 </div>
             {% endfor %}
         </div>

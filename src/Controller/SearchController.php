@@ -26,7 +26,7 @@ class SearchController extends AbstractController
         }
 
         // Rend le template en passant le terme de recherche et les résultats
-        return $this->render('search/index.html.twig', [
+        return $this->render('search/_like_button.html.twig', [
             'query' => $query,
             'articles' => $articles,
         ]);

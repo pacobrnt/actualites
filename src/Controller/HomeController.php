@@ -16,7 +16,7 @@ final class HomeController extends AbstractController
         // Récupère les top-headlines GNews
         $articles = $newsApiService->fetchTopHeadlines('fr');
 
-        return $this->render('home/index.html.twig', [
+        return $this->render('home/_like_button.html.twig', [
             // Passe les articles API pour l'affichage en cartes
             'articles' => $articles,
         ]);

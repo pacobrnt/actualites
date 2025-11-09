@@ -67,6 +67,12 @@
 
                 {# Liens d'Authentification et Administration #}
                 {% if is_granted('ROLE_USER') %}
+
+                    {# NOUVEAU: Bouton pour les Articles Favoris #}
+                    <a href="{{ path('app_favorite_index') }}" class="btn btn-sm btn-outline-danger me-2">
+                        ❤️ Mes Favoris
+                    </a>
+
                     {# Bouton d'Administration avec icône #}
                     <a href="{{ path('app_article_index') }}" class="btn btn-sm btn-outline-info me-2">
                         <i class="fas fa-tools"></i> Admin
@@ -74,8 +80,8 @@
 
                     {# Email de l'utilisateur #}
                     <span class="navbar-text me-3 text-white-50" style="font-size: 0.9rem;">
-                        Bonjour, <strong class="text-white">{{ app.user.email }}</strong>
-                    </span>
+        Bonjour, <strong class="text-white">{{ app.user.email }}</strong>
+    </span>
 
                     {# Bouton de Déconnexion #}
                     <a href="{{ path('app_logout') }}" class="btn btn-sm btn-danger">Déconnexion</a>
@@ -103,3 +109,4 @@
 
 </body>
 </html>
+```eof
