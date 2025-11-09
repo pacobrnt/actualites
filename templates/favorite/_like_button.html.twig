@@ -11,8 +11,8 @@
     {% set urlHash = article.url|hash %}
     {% set token_id = 'favorite_toggle' ~ urlHash %}
 
-    {# La DIV sert de Turbo Frame. Le formulaire ci-dessous remplacera le contenu de cette DIV. #}
-    <div data-turbo-frame="like_button_frame_{{ urlHash }}">
+    {# NOUVELLE STRUCTURE : La DIV sert de Turbo Frame et de conteneur pour le positionnement absolu #}
+    <div data-turbo-frame="like_button_frame_{{ urlHash }}" class="like-button-container">
         <form method="POST" action="{{ path('app_favorite_toggle') }}">
             {# Jeton CSRF pour la sécurité #}
             <input type="hidden" name="_token" value="{{ csrf_token(token_id) }}">
@@ -23,14 +23,14 @@
             <input type="hidden" name="image" value="{{ article.image }}">
             <input type="hidden" name="sourceName" value="{{ article.source.name|default('Source Inconnue') }}">
 
-            <button type="submit"
-                    class="btn btn-sm mt-2"
-                    style="width: 100%;">
+            {# Utilisation des classes Bootstrap pour enlever le style de bouton par défaut #}
+            <button type="submit" class="btn btn-link p-0 like-button-icon" title="Ajouter aux favoris">
 
+                {# L'icône change en fonction de l'état de "like" #}
                 {% if isLiked %}
-                    <span style="color: red;">❤️ Favori</span>
+                    <span style="color: red;">❤️</span>
                 {% else %}
-                    <span style="color: #6c757d;">🤍 Ajouter aux favoris</span>
+                    <span>🤍</span>
                 {% endif %}
             </button>
         </form>

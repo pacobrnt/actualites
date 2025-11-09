@@ -18,10 +18,16 @@
                 {# Le hash est utilisé pour créer des IDs uniques pour le Turbo Frame et le CSRF #}
                 {% set urlHash = article.url|hash %}
 
-                {# Style général de la carte #}
+                {# Style général de la carte - Doit contenir position: relative (défini dans app.css) #}
                 <div class="article-card" id="article_card_{{ urlHash }}">
 
-                    {# Lien englobant la carte entière (sauf l'espace du bouton) #}
+                    {# NOUVEAU: Inclusion du bouton J'aime - DIRECTEMENT dans article-card pour positionnement absolu #}
+                    {# Le CSS s'occupera de le placer en bas à droite, au-dessus du reste du contenu de la carte. #}
+                    {% include 'favorite/_like_button.html.twig' with {
+                        'article': article
+                    } %}
+
+                    {# Lien englobant tout le contenu cliquable de la carte #}
                     <a href="{{ article.url }}" target="_blank" title="{{ article.title }}"
                        style="display: block; text-decoration: none; color: inherit;">
 
@@ -54,13 +60,6 @@
                             </small>
                         </div>
                     </a>
-
-                    {# NOUVEAU: Inclusion du bouton J'aime - EN DEHORS de la balise <a> #}
-                    <div style="padding: 0 15px 15px 15px;">
-                        {% include 'favorite/_like_button.html.twig' with {
-                            'article': article
-                        } %}
-                    </div>
                 </div>
             {% endfor %}
         </div>

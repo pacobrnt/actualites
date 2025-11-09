@@ -22,11 +22,18 @@
                 {# AJOUT DE LA CLASSE article-card POUR BÉNÉFICIER DES STYLES CSS (Hover, Box-Shadow, Border) #}
                 <article class="article-card" id="article_card_{{ urlHash }}">
 
-                    {# Conteneur intérieur pour le padding et la structure #}
-                    <div style="padding: 15px;">
+                    {# NOUVEAU: Inclusion du bouton J'aime - DIRECTEMENT dans article-card pour positionnement absolu #}
+                    {% include 'favorite/_like_button.html.twig' with {
+                        'article': article
+                    } %}
 
-                        {# Image Cliquable - Nous n'utilisons que la balise <a> pour l'image #}
-                        <a href="{{ article.url }}" target="_blank" title="{{ article.title }}" style="display: block; text-decoration: none;">
+                    {# Conteneur cliquable couvrant le reste de la carte #}
+                    <a href="{{ article.url }}" target="_blank" title="{{ article.title }}" style="display: block; text-decoration: none; color: inherit;">
+
+                        {# Conteneur intérieur pour le padding et la structure #}
+                        <div style="padding: 15px;">
+
+                            {# Image Cliquable #}
                             {% if article.image %}
                                 {# Styles en ligne pour contraindre la taille de l'image #}
                                 <img src="{{ article.image }}" alt="Image de l'article" style="width: 100%; height: 200px; object-fit: cover;">
@@ -35,35 +42,27 @@
                                     <span>Image non disponible</span>
                                 </div>
                             {% endif %}
-                        </a>
 
-                        {# Titre #}
-                        <h2 style="font-size: 1.2em; margin-top: 10px; margin-bottom: 10px;">
-                            {# Le lien de titre #}
-                            <a href="{{ article.url }}" target="_blank" style="text-decoration: none; color: #007bff;">
+
+                            {# Titre #}
+                            <h2 style="font-size: 1.2em; margin-top: 10px; margin-bottom: 10px;">
+                                {# Le lien de titre n'est plus nécessaire ici car <a> enveloppe tout #}
                                 {{ article.title }}
-                            </a>
-                        </h2>
+                            </h2>
 
-                        {# Description #}
-                        <p style="font-size: 0.9em; color: #555; margin-bottom: 15px;">
-                            {{ article.description|slice(0, 100) ~ '...' }}
-                        </p>
+                            {# Description #}
+                            <p style="font-size: 0.9em; color: #555; margin-bottom: 15px;">
+                                {{ article.description|slice(0, 100) ~ '...' }}
+                            </p>
 
-                        {# Source et Date #}
-                        <small style="display: block; color: #888;">
-                            Source: **{{ article.source.name }}** - Publié le: {{ article.publishedAt|date('d/m/Y H:i') }}
-                        </small>
+                            {# Source et Date #}
+                            <small style="display: block; color: #888;">
+                                Source: **{{ article.source.name }}** - Publié le: {{ article.publishedAt|date('d/m/Y H:i') }}
+                            </small>
 
-                        {# NOUVEAU: Inclusion du bouton J'aime - Placé avant le lien "Lire l'article complet" #}
-                        {% include 'favorite/_like_button.html.twig' with {
-                            'article': article
-                        } %}
-
-                        <p style="margin-top: 10px;">
-                            <a href="{{ article.url }}" target="_blank">Lire l'article complet →</a>
-                        </p>
-                    </div>
+                            <p style="margin-top: 10px;">Lire l'article complet →</p>
+                        </div>
+                    </a>
                 </article>
             {% endfor %}
         </div>

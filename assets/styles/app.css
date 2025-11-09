@@ -12,6 +12,9 @@ body {
     background: white;
     box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 
+    /* --- CRUCIAL pour positionner le cœur en bas à droite --- */
+    position: relative;
+
     /* Ajout de la transition pour une animation douce */
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
@@ -71,4 +74,52 @@ body {
 .dynamic-navbar .form-control::placeholder {
     color: #ced4da;
     opacity: 0.6;
+}
+
+/* ---------------------------------------------------- */
+/* STYLES POUR BOUTON FAVORIS (Cœur) */
+/* ---------------------------------------------------- */
+
+/* Positionnement du conteneur du bouton (Turbo Frame) */
+.like-button-container {
+    position: absolute;
+    /* Positionne en bas à droite (15px de l'intérieur, comme le padding des autres éléments) */
+    bottom: 15px;
+    right: 15px;
+    z-index: 10; /* S'assurer qu'il est au-dessus du contenu */
+    padding: 5px; /* Pour augmenter la zone de clic */
+    background-color: white; /* Pour contraster avec l'image ou la description */
+    border-radius: 50%; /* Pour un fond en cercle */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    line-height: 1;
+    transition: transform 0.1s ease;
+
+    /* --- AJOUT CRUCIAL 1: Supprime la bordure ou l'outline au focus sur le conteneur --- */
+    outline: none;
+}
+
+.like-button-container:focus,
+.like-button-container:focus-visible { /* Pour les navigateurs modernes */
+    outline: none;
+    border: none;
+}
+
+.like-button-container:hover {
+    transform: scale(1.1); /* Petit effet de zoom au survol */
+}
+
+/* Style de l'icône de cœur */
+.like-button-icon {
+    font-size: 1.5rem; /* Taille du cœur */
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    /* --- AJOUT CRUCIAL 2: Supprime la bordure ou l'outline au focus sur l'icône/bouton --- */
+    outline: none;
+}
+
+.like-button-icon:focus,
+.like-button-icon:focus-visible { /* Pour les navigateurs modernes */
+    outline: none;
+    border: none;
 }
