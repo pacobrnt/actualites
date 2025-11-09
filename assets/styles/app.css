@@ -83,23 +83,23 @@ body {
 /* Positionnement du conteneur du bouton (Turbo Frame) */
 .like-button-container {
     position: absolute;
-    /* Positionne en bas à droite (15px de l'intérieur, comme le padding des autres éléments) */
+    /* ... autres styles ... */
     bottom: 15px;
     right: 15px;
-    z-index: 10; /* S'assurer qu'il est au-dessus du contenu */
-    padding: 5px; /* Pour augmenter la zone de clic */
-    background-color: white; /* Pour contraster avec l'image ou la description */
-    border-radius: 50%; /* Pour un fond en cercle */
+    z-index: 10;
+    padding: 5px;
+    background-color: white;
+    border-radius: 50%;
     box-shadow: 0 2px 5px rgba(0,0,0,0.2);
     line-height: 1;
     transition: transform 0.1s ease;
 
-    /* --- AJOUT CRUCIAL 1: Supprime la bordure ou l'outline au focus sur le conteneur --- */
+    /* Suppression de l'outline sur le conteneur lui-même */
     outline: none;
 }
 
 .like-button-container:focus,
-.like-button-container:focus-visible { /* Pour les navigateurs modernes */
+.like-button-container:focus-visible {
     outline: none;
     border: none;
 }
@@ -108,18 +108,37 @@ body {
     transform: scale(1.1); /* Petit effet de zoom au survol */
 }
 
+/* AJOUT CRUCIAL : Cible la balise <form> à l'intérieur du conteneur */
+.like-button-container form {
+    /* Assure que le formulaire n'interfère pas avec la mise en page */
+    margin: 0;
+    padding: 0;
+    line-height: 0; /* Évite un espace supplémentaire dû à la ligne */
+
+    /* Supprime la bordure de focus/clic sur l'élément <form> */
+    outline: none;
+    border: none;
+}
+
+.like-button-container form:focus,
+.like-button-container form:focus-visible {
+    outline: none;
+    border: none;
+}
+
+
 /* Style de l'icône de cœur */
 .like-button-icon {
     font-size: 1.5rem; /* Taille du cœur */
     border: none;
     background: transparent;
     cursor: pointer;
-    /* --- AJOUT CRUCIAL 2: Supprime la bordure ou l'outline au focus sur l'icône/bouton --- */
+    /* Suppression de l'outline sur le bouton final (c'est déjà là, on le garde) */
     outline: none;
 }
 
 .like-button-icon:focus,
-.like-button-icon:focus-visible { /* Pour les navigateurs modernes */
+.like-button-icon:focus-visible {
     outline: none;
     border: none;
 }
